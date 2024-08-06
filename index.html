@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3分タイマー</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 50px;
+    }
+
+    #timer {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+
+    button {
+      font-size: 18px;
+      margin: 0 10px;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="timer">3:00</div>
+  <button id="startBtn">スタート</button>
+  <button id="resetBtn">リセット</button>
+
+  <script>
+    let timer;
+    let timeLeft = 180; // 3分
+
+    const timerDisplay = document.getElementById('timer');
+    const startBtn = document.getElementById('startBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    function updateDisplay() {
+      const minutes = Math.floor(timeLeft / 60);
+      const seconds = timeLeft % 60;
+      timerDisplay.textContent = `${minutes.toString().padStart(1, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function startTimer() {
+      startBtn.disabled = true;
+      resetBtn.disabled = false;
+      timer = setInterval(() => {
+        timeLeft--;
+        updateDisplay();
+        if (timeLeft === 0) {
+          clearInterval(timer);
+          alert('3分経過しました！');
+          resetTimer();
+        }
+      }, 1000);
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timeLeft = 180;
+      updateDisplay();
+      startBtn.disabled = false;
+      resetBtn.disabled = true;
+    }
+
+    resetBtn.disabled = true;
+    startBtn.addEventListener('click', startTimer);
+    resetBtn.addEventListener('click', resetTimer);
+
+  </script>
+</body>
+
+</html>
